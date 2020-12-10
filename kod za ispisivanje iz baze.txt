@@ -1,0 +1,28 @@
+import mysql.connector
+from mysql.connector import Error
+
+try:
+    connection = mysql.connector.connect(host='localhost',
+                                         database='kafic',
+                                         user='root',
+                                         password='')
+
+    sql_select_Query = "select * from zadatak"
+    cursor = connection.cursor()
+    cursor.execute(sql_select_Query)
+    records = cursor.fetchall()
+    print("Total number of rows in request_quote is: ", cursor.rowcount)
+
+    print("\nPrinting each request_quote record")
+    for row in records:
+        print("Id = ", row[0], )
+        print("narudzba = ", row[1], "\n")
+        print("table_number = ", row[2], "\n")
+
+except Error as e:
+    print("Error reading data from MySQL table", e)
+finally:
+    if (connection.is_connected()):
+        connection.close()
+        cursor.close()
+        print("MySQL connection is closed")
